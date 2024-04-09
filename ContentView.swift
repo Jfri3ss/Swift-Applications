@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Code Trivia
 //
-//  Created on 2/3/24.
+//  Created by Steve Jobs on 2/3/24.
 //
 
 import SwiftUI
@@ -14,15 +14,14 @@ let accentColor = Color(red: 48/255, green: 105/255, blue: 240/255)
 //Start of body code
 struct ContentView: View {
     
-    //We created an instance of the question data model (struct defiend in Questions.swift) using the data model.
-    let question = Question (
+    //We created an instance of the question data model (struct defiend in Questions.swift) using the data model for the first question.
+    
+    let question = Question(
         questionText: "What was the first computer bug?",
         possibleAnswers: ["Ant", "Beetle", "Moth", "Fly"],
         correctAnswerIndex: 2)
     
-    let mainColor = Color(red: 20/255, green: 28/255, blue: 58/255)
-    let accentColor = Color(red: 48/255, green: 105/255, blue: 240/255)
-
+    @State var mainColor = Color(red: 20/255, green: 28/255, blue: 58/255)
     
     var body: some View {
             ZStack {
@@ -32,62 +31,57 @@ struct ContentView: View {
                 .font(.callout)
                 .multilineTextAlignment(.leading)
                 .padding()
-            Text("What was the first computer bug?")
+            Text(question.questionText)
                 .font(.largeTitle)
                 .bold()
                 .multilineTextAlignment(.leading)
             Spacer()
                     HStack {
-                        //Action is action taken when button pressed
-                        Button(action:  {
-                            print("Tapped on Choice 1")
-                            //Label is the view of the button
-                        }, label: {
-                            Text("Ant")
-                                .font(.body)
-                                .bold()
-                                .multilineTextAlignment(.center)
-                                .padding()
-                                .border(Color.accentColor, width: 4)
-                        })
                         
-                        Button(action:  {
-                            print("Tapped on Choice 2")
-                            //Label is the view of the button
-                        }, label: {
-                            Text("Beetle")
-                                .font(.body)
-                                .bold()
-                                .multilineTextAlignment(.center)
-                                .padding()
-                                .border(Color.accentColor, width: 4)
-                        })
+                        ForEach(0..<question.possibleAnswers.count) { answerIndex in
+                            Button(action: {
+                                print("Tapped on option with the text: \(question.possibleAnswers[answerIndex])")
+                                mainColor = answerIndex == question.correctAnswerIndex ? .green : .red
+                            }, label: {
+                                ChoiceTextView(choiceText: question.possibleAnswers[answerIndex])
+                                
+                            })
+                          }
+                        }
+                    
+                    //All this code was replaced with the ForEach loop above! for user interfaces!!!
                         
-                        Button(action:  {
-                            print("Tapped on Choice 3")
-                            //Label is the view of the button
-                        }, label: {
-                            Text("Moth")
-                                .font(.body)
-                                .bold()
-                                .multilineTextAlignment(.center)
-                                .padding()
-                                .border(Color.accentColor, width: 4)
-                        })
-                        
-                        Button(action:  {
-                            print("Tapped on Choice 4")
-                            //Label is the view of the button
-                        }, label: {
-                            Text("Fly")
-                                .font(.body)
-                                .bold()
-                                .multilineTextAlignment(.center)
-                                .padding()
-                                .border(Color.accentColor, width: 4)
-                        })
-                        
-                    }
+//                        //Action is action taken when button pressed
+//                        Button(action:  {
+//                            print("Tapped on Choice 1")
+//                            //Label is the view of the button
+//                        }, label: {
+//                            ChoiceTextView(choiceText: question.possibleAnswers[0])
+//                        })
+//                        
+//                        Button(action:  {
+//                            print("Tapped on Choice 2")
+//                            //Label is the view of the button
+//                        }, label: {
+//                            ChoiceTextView(choiceText: question.possibleAnswers[1])
+//                        })
+//                        
+//                        Button(action:  {
+//                            print("Tapped on Choice 3")
+//                            //Label is the view of the button
+//                        }, label: {
+//                            ChoiceTextView(choiceText: question.possibleAnswers[2])
+//                        })
+//                        
+//                        Button(action:  {
+//                            print("Tapped on Choice 4")
+//                            //Label is the view of the button
+//                        }, label: {
+//                            ChoiceTextView(choiceText: question.possibleAnswers[3])
+//
+//                        })
+//                        
+//                    }
             }
         }
             .foregroundColor(.white)
